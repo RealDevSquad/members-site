@@ -1,0 +1,28 @@
+# For more information see: https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions
+
+name: Continuous Integration
+
+on:
+  pull_request:
+    branches: ['*']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: yarn
+      - run: yarn prettier:check
+      - run: yarn test:coverage
+      - run: yarn build

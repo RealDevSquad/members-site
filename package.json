@@ -13,6 +13,8 @@
     "build:production": "cp ./env/.env.production .env && next build",
     "start": "next start",
     "test": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "build": "next build",
     "lint:check": "next lint",
     "lint:fix": "next lint --fix",
     "build:staging": "cp ./env/.env.staging .env && next build",
