@@ -2,11 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import MemberRoleUpdateModalPresentation from './Presentation';
 import { RootState } from '@/src/store';
 import { setIsUserRoleUpdateModalVisible } from '@/src/store/superUserOptions';
-import {
-  useArchiveMemberMutation,
-  useUpdateMemberRoleMutation,
-  useUpdateUserRoleMutation,
-} from '@/src/services/serverApi';
+import { useUpdateUserRoleMutation } from '@/src/services/serverApi';
 import { notifyError, notifySuccess } from '@/src/utils/toast';
 
 export default function MemberRoleUpdateModal() {
