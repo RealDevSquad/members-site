@@ -38,6 +38,3 @@ next-env.d.ts
 # yarn
 .yarnrc.yml
 .yarn/*
-
-# LOCAL FILES
-note.md
