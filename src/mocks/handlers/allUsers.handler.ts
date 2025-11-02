@@ -1,24 +1,21 @@
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import { usersData } from '../db/allUsers';
 const URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const username = 'vinayak';
 
 const allUsersHandler = [
-  rest.get(`${URL}/users`, (_, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.json({
-        message: 'Users returned successfully!',
-        users: usersData,
-      }),
-    );
+  http.get(`${URL}/users`, () => {
+    return HttpResponse.json({
+      message: 'Users returned successfully!',
+      users: usersData,
+    }, { status: 200 });
   }),
-  rest.patch(`${URL}/members/moveToMembers/${username}`, (req, res, ctx) => {
-    return res(ctx.status(204));
+  http.patch(`${URL}/members/moveToMembers/${username}`, () => {
+    return new HttpResponse(null, { status: 204 });
   }),
-  rest.patch(`${URL}/members/archiveMembers/${username}`, (req, res, ctx) => {
-    return res(ctx.status(204));
+  http.patch(`${URL}/members/archiveMembers/${username}`, () => {
+    return new HttpResponse(null, { status: 204 });
   }),
 ];
 

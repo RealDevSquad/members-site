@@ -2,8 +2,8 @@ import { handlers } from '../../mocks/handlers';
 import { setupServer } from 'msw/node';
 import { Provider } from 'react-redux';
 import { store } from '../../store/index';
-import React, { PropsWithChildren } from 'react';
-import { act, renderHook } from '@testing-library/react-hooks';
+import React, { PropsWithChildren, act } from 'react';
+import { renderHook, waitFor } from '@testing-library/react';
 import {
   useAddNewSkillMutation,
   useUpdateUsersSKillMutation,
@@ -41,10 +41,7 @@ describe('useUpdateUsersSKillMutation', () => {
     });
 
     const [updateUserSkill] = result.current;
-    const {
-      result: addNewSkillResult,
-      waitForNextUpdate: addNewSkillNextUpdate,
-    } = renderHook(() => useAddNewSkillMutation(), { wrapper: Wrapper });
+    const { result: addNewSkillResult } = renderHook(() => useAddNewSkillMutation(), { wrapper: Wrapper });
 
     act(() => updateUserSkill(payload));
 
@@ -69,10 +66,11 @@ describe('useUpdateUsersSKillMutation', () => {
     expect(loadingResponse.data).toBeUndefined();
     expect(loadingResponse.isLoading).toBe(true);
 
-    await addNewSkillNextUpdate();
+    await waitFor(() => {
+      expect(addNewSkillResult.current[1].data).not.toBeUndefined();
+    });
 
     const loadedResponse = addNewSkillResult.current[1];
-    expect(loadedResponse.data).not.toBeUndefined();
     expect(loadedResponse.isLoading).toBe(false);
     expect(loadedResponse.isSuccess).toBe(true);
   });

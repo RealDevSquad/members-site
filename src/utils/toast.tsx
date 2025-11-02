@@ -7,7 +7,7 @@ export default function Toast() {
 
 const notifyBase = (text: string, type: 'success' | 'error' | 'info') => {
   toast[type](text, {
-    position: toast.POSITION.TOP_RIGHT,
+    position: 'top-right',
     autoClose: 2000,
   } as ToastOptions); // Here, we use `ToastOptions` to provide type information for the options object.
 };

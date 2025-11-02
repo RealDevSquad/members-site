@@ -1,18 +1,15 @@
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import { allContributionsData } from '../db/contributions';
 const URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const username = 'vinayak';
 
 const contributionsHandler = [
-  rest.get(`${URL}/contributions/${username}`, (_, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.json({
-        noteworthy: [],
-        all: allContributionsData,
-      }),
-    );
+  http.get(`${URL}/contributions/${username}`, () => {
+    return HttpResponse.json({
+      noteworthy: [],
+      all: allContributionsData,
+    }, { status: 200 });
   }),
 ];
 

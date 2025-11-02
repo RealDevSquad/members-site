@@ -2,8 +2,8 @@ import { useUpdateTaskStatusMutation } from '../../services/serverApi';
 import { Provider } from 'react-redux';
 import { store } from '../../store/index';
 
-import React, { PropsWithChildren } from 'react';
-import { act, renderHook } from '@testing-library/react-hooks';
+import React, { PropsWithChildren, act } from 'react';
+import { renderHook, waitFor } from '@testing-library/react';
 import { setupServer } from 'msw/node';
 import { handlers } from '../../mocks/handlers';
 
@@ -20,7 +20,7 @@ function Wrapper({
 
 describe('useUpdateTaskStatusMutation', () => {
   test('it should update the task status', async () => {
-    const { result, waitForNextUpdate } = renderHook(
+    const { result } = renderHook(
       () => useUpdateTaskStatusMutation(),
       {
         wrapper: Wrapper,
@@ -38,10 +38,11 @@ describe('useUpdateTaskStatusMutation', () => {
       });
     });
 
-    await waitForNextUpdate();
+    await waitFor(() => {
+      expect(result.current[1].isSuccess).toBe(true);
+    });
 
     const nextResponse = result.current[1];
     expect(nextResponse).not.toBeUndefined();
-    expect(nextResponse?.isSuccess).toBe(true);
   });
 });

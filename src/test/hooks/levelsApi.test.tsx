@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { store } from '../../store/index';
 
 import React, { PropsWithChildren } from 'react';
-import { act, renderHook } from '@testing-library/react-hooks';
+import { renderHook, waitFor } from '@testing-library/react';
 import { setupServer } from 'msw/node';
 import { handlers } from '../../mocks/handlers';
 
@@ -23,7 +23,7 @@ function Wrapper({
 
 describe('useGetLevelsQuery', () => {
   test('returns levels', async () => {
-    const { result, waitForNextUpdate } = renderHook(
+    const { result } = renderHook(
       () => useGetLevelsQuery(null),
       {
         wrapper: Wrapper,
@@ -34,11 +34,12 @@ describe('useGetLevelsQuery', () => {
     expect(initialResponse.data).toBeUndefined();
     expect(initialResponse.isLoading).toBe(true);
 
-    await act(() => waitForNextUpdate());
+    await waitFor(() => {
+      expect(result.current.data).not.toBeUndefined();
+    });
 
     const nextResponse = result.current;
 
-    expect(nextResponse?.data).not.toBeUndefined();
     expect(nextResponse?.data?.message).toEqual('Levels returned Successfully');
     expect(nextResponse?.data?.levels).toHaveLength(8);
   });

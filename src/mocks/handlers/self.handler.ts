@@ -1,10 +1,13 @@
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import { selfUser } from '../db/user';
-const URL = process.env.NEXT_PUBLIC_BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const selfUserHandler = [
-  rest.get(`${URL}/users?profile=true`, (_, res, ctx) => {
-    return res(ctx.status(200), ctx.json(selfUser));
+  http.get(`${BASE_URL}/users`, ({ request }) => {
+    const url = new URL(request.url);
+    if (url.searchParams.get('profile') === 'true') {
+      return HttpResponse.json(selfUser, { status: 200 });
+    }
   }),
 ];
 

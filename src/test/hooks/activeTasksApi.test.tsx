@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { store } from '../../store/index';
 
 import React, { PropsWithChildren } from 'react';
-import { act, renderHook } from '@testing-library/react-hooks';
+import { renderHook, waitFor } from '@testing-library/react';
 import { setupServer } from 'msw/node';
 import { handlers } from '../../mocks/handlers';
 
@@ -23,7 +23,7 @@ function Wrapper({
 
 describe('useGetUserActiveTaskQuery', () => {
   test('returns active tasks', async () => {
-    const { result, waitForNextUpdate } = renderHook(
+    const { result } = renderHook(
       () => useGetUserActiveTaskQuery('vinayak'),
       { wrapper: Wrapper },
     );
@@ -32,10 +32,11 @@ describe('useGetUserActiveTaskQuery', () => {
     expect(initialResponse.data).toBeUndefined();
     expect(initialResponse.isLoading).toBe(true);
 
-    await act(() => waitForNextUpdate());
+    await waitFor(() => {
+      expect(result.current.data).not.toBeUndefined();
+    });
 
     const nextResponse = result.current;
-    expect(nextResponse?.data).not.toBeUndefined();
     expect(nextResponse?.data?.message).toBe('Tasks returned successfully!');
     expect(nextResponse?.data?.tasks).toHaveLength(0);
   });

@@ -1,6 +1,6 @@
 import { Provider } from 'react-redux';
 import { store } from '../../store/index';
-import { act, renderHook } from '@testing-library/react-hooks';
+import { renderHook, waitFor } from '@testing-library/react';
 import React, { PropsWithChildren } from 'react';
 import { setupServer } from 'msw/node';
 import { handlers } from '../../mocks/handlers';
@@ -26,14 +26,11 @@ function Wrapper({
 
 describe('useGetLevels', () => {
   test('returns tags with levels', async () => {
-    const {
-      result: tagsWithLevelResult,
-      waitForNextUpdate: tagsWithLevelNextUpdate,
-    } = renderHook(() => useGetLevels(), {
+    const { result: tagsWithLevelResult } = renderHook(() => useGetLevels(), {
       wrapper: Wrapper,
     });
 
-    const { result, waitForNextUpdate } = renderHook(
+    const { result } = renderHook(
       () => {
         return {
           levelData: useGetLevelsQuery(null),
@@ -50,14 +47,15 @@ describe('useGetLevels', () => {
     expect(tagsData.data).toBeUndefined();
     expect(tagsData.isLoading).toBe(true);
 
-    await waitForNextUpdate();
+    await waitFor(() => {
+      expect(result.current.levelData.isLoading).toBe(false);
+      expect(result.current.tagsData.isLoading).toBe(false);
+    });
 
     const { levelData: levelDataNextResponse, tagsData: tagsDataNextResponse } =
       result.current;
 
-    expect(levelDataNextResponse.isLoading).toBe(false);
     expect(levelDataNextResponse?.data?.levels).toHaveLength(8);
-    expect(tagsDataNextResponse.isLoading).toBe(false);
     expect(tagsDataNextResponse?.data?.tags).toHaveLength(5);
   });
 });

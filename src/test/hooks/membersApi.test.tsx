@@ -6,8 +6,8 @@ import {
 import { Provider } from 'react-redux';
 import { store } from '../../store/index';
 
-import React, { PropsWithChildren } from 'react';
-import { act, renderHook } from '@testing-library/react-hooks';
+import React, { PropsWithChildren, act } from 'react';
+import { renderHook, waitFor } from '@testing-library/react';
 import { setupServer } from 'msw/node';
 import { handlers } from '../../mocks/handlers';
 
@@ -27,7 +27,7 @@ function Wrapper({
 
 describe('it shoud test all the users RTK query hooks', () => {
   test('it should return all users', async () => {
-    const { result, waitForNextUpdate } = renderHook(
+    const { result } = renderHook(
       () => useGetAllUsersQuery(),
       { wrapper: Wrapper },
     );
@@ -36,16 +36,17 @@ describe('it shoud test all the users RTK query hooks', () => {
     expect(initialResponse.data).toBeUndefined();
     expect(initialResponse.isLoading).toBe(true);
 
-    await act(() => waitForNextUpdate());
+    await waitFor(() => {
+      expect(result.current.data).not.toBeUndefined();
+    });
 
     const nextResponse = result.current;
-    expect(nextResponse?.data).not.toBeUndefined();
     expect(nextResponse?.data?.message).toBe('Users returned successfully!');
     expect(nextResponse?.data?.users).toHaveLength(4);
   });
 
   test('it should promote user to member', async () => {
-    const { result, waitForNextUpdate } = renderHook(
+    const { result } = renderHook(
       () => useUpdateMemberRoleMutation(),
       {
         wrapper: Wrapper,
@@ -66,15 +67,16 @@ describe('it shoud test all the users RTK query hooks', () => {
     expect(loadingResponse.data).toBeUndefined();
     expect(loadingResponse.isLoading).toBe(true);
 
-    await waitForNextUpdate();
+    await waitFor(() => {
+      expect(result.current[1].isSuccess).toBe(true);
+    });
 
     const loadedResponse = result.current[1];
     expect(loadedResponse.isLoading).toBe(false);
-    expect(loadedResponse.isSuccess).toBe(true);
   });
 
   test('it should archive user', async () => {
-    const { result, waitForNextUpdate } = renderHook(
+    const { result } = renderHook(
       () => useArchiveMemberMutation(),
       {
         wrapper: Wrapper,
@@ -95,10 +97,11 @@ describe('it shoud test all the users RTK query hooks', () => {
     expect(loadingResponse.data).toBeUndefined();
     expect(loadingResponse.isLoading).toBe(true);
 
-    await waitForNextUpdate();
+    await waitFor(() => {
+      expect(result.current[1].isSuccess).toBe(true);
+    });
 
     const loadedResponse = result.current[1];
     expect(loadedResponse.isLoading).toBe(false);
-    expect(loadedResponse.isSuccess).toBe(true);
   });
 });

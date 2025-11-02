@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { store } from '../../store/index';
 
 import React, { PropsWithChildren } from 'react';
-import { act, renderHook } from '@testing-library/react-hooks';
+import { renderHook, waitFor } from '@testing-library/react';
 import { setupServer } from 'msw/node';
 import { handlers } from '../../mocks/handlers';
 
@@ -27,7 +27,7 @@ describe('useGetUsers', () => {
       wrapper: Wrapper,
     });
 
-    const { result: membesResult, waitForNextUpdate } = renderHook(
+    const { result: membesResult } = renderHook(
       () => useGetAllUsersQuery(),
       {
         wrapper: Wrapper,
@@ -42,14 +42,15 @@ describe('useGetUsers', () => {
     expect(membersInitialResponse.data).toBeUndefined();
     expect(membersInitialResponse.isLoading).toBe(true);
 
-    await act(() => waitForNextUpdate());
+    await waitFor(() => {
+      expect(membesResult.current.data).not.toBeUndefined();
+      expect(result.current.data).not.toBeUndefined();
+    });
 
     const membersNextResponse = membesResult.current;
-    expect(membersNextResponse.data).not.toBeUndefined();
     expect(membersNextResponse.isLoading).toBe(false);
 
     const nextResponse = result.current;
-    expect(nextResponse.data).not.toBeUndefined();
     expect(nextResponse.isLoading).toBe(false);
     expect(nextResponse.error).toBeUndefined();
   });

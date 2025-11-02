@@ -3,9 +3,17 @@ import { Provider } from 'react-redux';
 import { store } from '../../store/index';
 
 import React, { PropsWithChildren } from 'react';
-import { act, renderHook } from '@testing-library/react-hooks';
+import { renderHook, waitFor } from '@testing-library/react';
 import { setupServer } from 'msw/node';
 import { handlers } from '../../mocks/handlers';
+import {
+  beforeAll,
+  afterEach,
+  afterAll,
+  describe,
+  test,
+  expect,
+} from '@jest/globals';
 
 const server = setupServer(...handlers);
 
@@ -27,12 +35,9 @@ describe('useGetMembers', () => {
       wrapper: Wrapper,
     });
 
-    const { result: membersResult, waitForNextUpdate } = renderHook(
-      () => useGetAllUsersQuery(),
-      {
-        wrapper: Wrapper,
-      },
-    );
+    const { result: membersResult } = renderHook(() => useGetAllUsersQuery(), {
+      wrapper: Wrapper,
+    });
 
     const inititalResponse = result.current;
     expect(inititalResponse.data).toBeUndefined();
@@ -42,14 +47,15 @@ describe('useGetMembers', () => {
     expect(membersInitialResponse.data).toBeUndefined();
     expect(membersInitialResponse.isLoading).toBe(true);
 
-    await act(() => waitForNextUpdate());
+    await waitFor(() => {
+      expect(membersResult.current.data).not.toBeUndefined();
+      expect(result.current.data).not.toBeUndefined();
+    });
 
     const membersNextResponse = membersResult.current;
-    expect(membersNextResponse.data).not.toBeUndefined();
     expect(membersNextResponse.isLoading).toBe(false);
 
     const nextResponse = result.current;
-    expect(nextResponse.data).not.toBeUndefined();
     expect(nextResponse.isLoading).toBe(false);
     expect(nextResponse.error).toBeUndefined();
   });
