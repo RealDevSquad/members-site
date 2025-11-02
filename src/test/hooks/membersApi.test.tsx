@@ -1,11 +1,14 @@
-import { useGetAllUsersQuery } from '../../services/serverApi';
+import {
+  useGetAllUsersQuery,
+  useUpdateUserRoleMutation,
+} from '../../services/serverApi';
 import { Provider } from 'react-redux';
 import { store } from '../../store/index';
-
-import React, { PropsWithChildren } from 'react';
-import { act, renderHook } from '@testing-library/react-hooks';
+import React, { PropsWithChildren, act } from 'react';
+import { renderHook, waitFor } from '@testing-library/react';
 import { setupServer } from 'msw/node';
 import { handlers } from '../../mocks/handlers';
+import { userData } from '../../mocks/db/user';
 
 const server = setupServer(...handlers);
 
@@ -23,10 +26,9 @@ function Wrapper({
 
 describe('it shoud test all the users RTK query hooks', () => {
   test('it should return all users', async () => {
-    const { result, waitForNextUpdate } = renderHook(
-      () => useGetAllUsersQuery(),
-      { wrapper: Wrapper },
-    );
+    const { result } = renderHook(() => useGetAllUsersQuery(), {
+      wrapper: Wrapper,
+    });
 
     const initialResponse = result.current;
     expect(initialResponse.data).toBeUndefined();
@@ -38,5 +40,69 @@ describe('it shoud test all the users RTK query hooks', () => {
     expect(nextResponse?.data).not.toBeUndefined();
     expect(nextResponse?.data?.message).toBe('Users returned successfully!');
     expect(nextResponse?.data?.users).toHaveLength(4);
+  });
+});
+
+describe('useUpdateUserRoleMutation', () => {
+  test('it should update the user role', async () => {
+    const { result } = renderHook(() => useUpdateUserRoleMutation(), {
+      wrapper: Wrapper,
+    });
+
+    const [updateUserRole, initialResponse] = result.current;
+    expect(initialResponse.data).toBeUndefined();
+    expect(initialResponse.isLoading).toBe(false);
+
+    act(() => {
+      void updateUserRole({
+        userId: userData.id,
+        body: {
+          roles: {
+            member: true,
+          },
+        },
+      });
+    });
+
+    await waitFor(() => {
+      expect(result.current[1].isSuccess).toBe(true);
+    });
+
+    const nextResponse = result.current[1];
+    expect(nextResponse).not.toBeUndefined();
+    expect(nextResponse?.isSuccess).toBe(true);
+    expect(nextResponse?.data?.message).toBe('User role updated successfully!');
+  });
+});
+
+describe('useUpdateUserRoleMutation - duplicate', () => {
+  test('it should update the user role', async () => {
+    const { result } = renderHook(() => useUpdateUserRoleMutation(), {
+      wrapper: Wrapper,
+    });
+
+    const [updateUserRole, initialResponse] = result.current;
+    expect(initialResponse.data).toBeUndefined();
+    expect(initialResponse.isLoading).toBe(false);
+
+    act(() => {
+      void updateUserRole({
+        userId: userData.id,
+        body: {
+          roles: {
+            member: true,
+          },
+        },
+      });
+    });
+
+    await waitFor(() => {
+      expect(result.current[1].isSuccess).toBe(true);
+    });
+
+    const nextResponse = result.current[1];
+    expect(nextResponse).not.toBeUndefined();
+    expect(nextResponse?.isSuccess).toBe(true);
+    expect(nextResponse?.data?.message).toBe('User role updated successfully!');
   });
 });
