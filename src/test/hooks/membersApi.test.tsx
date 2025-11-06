@@ -74,35 +74,3 @@ describe('useUpdateUserRoleMutation', () => {
     expect(nextResponse?.data?.message).toBe('User role updated successfully!');
   });
 });
-
-describe('useUpdateUserRoleMutation - duplicate', () => {
-  test('it should update the user role', async () => {
-    const { result } = renderHook(() => useUpdateUserRoleMutation(), {
-      wrapper: Wrapper,
-    });
-
-    const [updateUserRole, initialResponse] = result.current;
-    expect(initialResponse.data).toBeUndefined();
-    expect(initialResponse.isLoading).toBe(false);
-
-    act(() => {
-      void updateUserRole({
-        userId: userData.id,
-        body: {
-          roles: {
-            member: true,
-          },
-        },
-      });
-    });
-
-    await waitFor(() => {
-      expect(result.current[1].isSuccess).toBe(true);
-    });
-
-    const nextResponse = result.current[1];
-    expect(nextResponse).not.toBeUndefined();
-    expect(nextResponse?.isSuccess).toBe(true);
-    expect(nextResponse?.data?.message).toBe('User role updated successfully!');
-  });
-});
