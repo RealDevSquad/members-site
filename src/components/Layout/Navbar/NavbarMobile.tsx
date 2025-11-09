@@ -28,9 +28,9 @@ const NavbarMobile: FC<NavbarTypes> = ({
 
   return (
     <>
-      <Box className={styles.navbarMobile_container} data-testId="navbarMobile">
+      <Box className={styles.navbarMobile_container} data-testid="navbarMobile">
         <Button
-          data-testId="hamburger"
+          data-testid="hamburger"
           onClick={() => setNavLinksVisibility((prev) => !prev)}
         >
           <Image
@@ -51,7 +51,7 @@ const NavbarMobile: FC<NavbarTypes> = ({
       </Box>
       {navLinksVisibility && (
         <UnorderedList
-          data-testId="linksContainer"
+          data-testid="linksContainer"
           listStyleType="none"
           className={styles.navbarMobile_menu}
         >
