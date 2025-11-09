@@ -43,7 +43,7 @@ export default function NewMemberSection() {
           className={styles.newMemberSectionLoadMore__container}
           ref={loadMoreRef}
         >
-          <Spinner/>
+          <Spinner />
         </div>
       )}
     </div>
