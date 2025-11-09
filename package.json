@@ -62,5 +62,11 @@
     "postcss": "^8.4.41",
     "prettier": "^3.3.3",
     "tailwindcss": "^3.4.10"
+  },
+  "resolutions": {
+    "string-width": "^4.2.3",
+    "strip-ansi": "^6.0.1",
+    "wrap-ansi": "^7.0.0",
+    "mute-stream": "^1.0.0"
   }
 }
