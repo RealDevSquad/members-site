@@ -62,7 +62,7 @@ export default function MembersCardPresentation({
       onMouseLeave={hideSetting}
       onClick={(e: SyntheticEvent) => routeHandler(e)}
       className={styles.member_card}
-      data-testId="member card button"
+      data-testid="member card button"
     >
       <Image
         className={styles.member_card__image}
@@ -74,14 +74,14 @@ export default function MembersCardPresentation({
           {`${member.first_name} ${member.last_name}`}
         </Text>
         <small
-          data-testId="designation"
+          data-testid="designation"
           className={styles.member_card__designation}
         >
           {member.designation}
         </small>
       </Box>
       <Flex
-        data-testId="socials links"
+        data-testid="socials links"
         justify="center"
         className={styles.member_card__socials}
         gap={1}

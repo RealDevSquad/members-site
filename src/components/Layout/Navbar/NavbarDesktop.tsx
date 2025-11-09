@@ -24,7 +24,7 @@ const NavbarDesktop: FC<NavbarTypes> = ({
   ));
 
   return (
-    <nav className={styles.navbar} data-testId="navbarDesktop">
+    <nav className={styles.navbar} data-testid="navbarDesktop">
       <UnorderedList listStyleType="none" className={styles.navbar_menu}>
         <ListItem>
           <Link href={HOME_URL}>

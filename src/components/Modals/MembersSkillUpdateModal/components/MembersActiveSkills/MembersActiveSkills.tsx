@@ -23,7 +23,7 @@ export default function MembersActiveSkills({
   return (
     <Skeleton height="80%" isLoaded={!isSkillsLoading}>
       <Wrap
-        data-testId="active skills"
+        data-testid="active skills"
         className={styles.memberActiveSkills_modal_wrap}
         spacing="1rem"
       >
@@ -31,7 +31,7 @@ export default function MembersActiveSkills({
         {filteredTags?.length !== 0 && (
           <WrapItem>
             <IconButton
-              data-testId="add icon"
+              data-testid="add icon"
               className={styles.memberActiveSkills_add_icon_button}
               onClick={() => setIsTagsOpen((prevstate: boolean) => !prevstate)}
               aria-label="Add skills"

@@ -102,7 +102,7 @@ export default function ContributionAccordianItem({
           right="-10px"
           background="none"
           _hover={{ bg: 'none' }}
-          data-testId="settingButton"
+          data-testid="settingButton"
         >
           <Image src="/icons/setting.svg" alt="" width={15} height={15} />
         </Button>
