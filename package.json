@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "volta": {
-    "node": "18.16.0",
+    "node": "18.20.8",
     "yarn": "1.22.19"
   },
   "scripts": {
