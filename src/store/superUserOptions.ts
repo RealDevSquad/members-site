@@ -48,7 +48,7 @@ export const superUserOptions = createSlice({
       state,
       { payload: { visibility, taskId, isTaskNoteworthy } },
     ) => {
-      (state.isTaskUpdateModalVisible = visibility), (state.taskId = taskId);
+      ((state.isTaskUpdateModalVisible = visibility), (state.taskId = taskId));
       state.isTaskNoteworthy = isTaskNoteworthy;
     },
     setUserSkillModalVisibility: (
