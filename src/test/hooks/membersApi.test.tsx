@@ -34,7 +34,9 @@ describe('it shoud test all the users RTK query hooks', () => {
     expect(initialResponse.data).toBeUndefined();
     expect(initialResponse.isLoading).toBe(true);
 
-    await act(() => waitForNextUpdate());
+    await waitFor(() => {
+      expect(result.current.data).not.toBeUndefined();
+    });
 
     const nextResponse = result.current;
     expect(nextResponse?.data).not.toBeUndefined();
@@ -56,11 +58,7 @@ describe('useUpdateUserRoleMutation', () => {
     act(() => {
       void updateUserRole({
         userId: userData.id,
-        body: {
-          roles: {
-            member: true,
-          },
-        },
+        body: { roles: { member: true } },
       });
     });
 
