@@ -4,6 +4,7 @@ import { store } from '../../store/index';
 
 import React, { PropsWithChildren } from 'react';
 import { act, renderHook } from '@testing-library/react-hooks';
+import { waitFor } from '@testing-library/react';
 import { setupServer } from 'msw/node';
 import { handlers } from '../../mocks/handlers';
 
@@ -23,15 +24,11 @@ function Wrapper({
 
 describe('useGetMembers', () => {
   test('it should returns members', async () => {
-    const { result } = renderHook(() => useGetMembers(), {
-      wrapper: Wrapper,
-    });
+    const { result } = renderHook(() => useGetMembers(), { wrapper: Wrapper });
 
     const { result: membersResult, waitForNextUpdate } = renderHook(
       () => useGetAllUsersQuery(),
-      {
-        wrapper: Wrapper,
-      },
+      { wrapper: Wrapper },
     );
 
     const inititalResponse = result.current;
@@ -47,6 +44,10 @@ describe('useGetMembers', () => {
     const membersNextResponse = membersResult.current;
     expect(membersNextResponse.data).not.toBeUndefined();
     expect(membersNextResponse.isLoading).toBe(false);
+
+    await waitFor(() => {
+      expect(result.current.data).not.toBeUndefined();
+    });
 
     const nextResponse = result.current;
     expect(nextResponse.data).not.toBeUndefined();
