@@ -6,7 +6,7 @@ export default function Toast() {
 }
 
 const notifyBase = (text: string, type: 'success' | 'error' | 'info') => {
-  toast[type](text, { position: "top-right", autoClose: 2000 });
+  toast[type](text, { position: 'top-right', autoClose: 2000 });
 };
 
 export const notifySuccess = (text: string) => notifyBase(text, 'success');
