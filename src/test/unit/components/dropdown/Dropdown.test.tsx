@@ -53,28 +53,28 @@ describe('Dropdown', () => {
     expect(userStatusLink).toBeInTheDocument();
     expect(userStatusLink).toHaveAttribute(
       'href',
-      'https://my.realdevsquad.com',
+      'https://www.realdevsquad.com/status',
     );
 
     const profileLink = screen.getByRole('link', { name: 'Profile' });
     expect(profileLink).toBeInTheDocument();
     expect(profileLink).toHaveAttribute(
       'href',
-      'https://my.realdevsquad.com/profile',
+      'https://www.realdevsquad.com/profile',
     );
 
     const taskLink = screen.getByRole('link', { name: 'Tasks' });
     expect(taskLink).toBeInTheDocument();
     expect(taskLink).toHaveAttribute(
       'href',
-      'https://my.realdevsquad.com/tasks',
+      'https://status.realdevsquad.com/tasks',
     );
 
     const identityLink = screen.getByRole('link', { name: 'Identity' });
     expect(identityLink).toBeInTheDocument();
     expect(identityLink).toHaveAttribute(
       'href',
-      'https://my.realdevsquad.com/identity',
+      'https://www.realdevsquad.com/identity',
     );
 
     const signoutButton = screen.getByRole('button', { name: 'Sign out' });
