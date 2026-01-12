@@ -10,22 +10,22 @@ export const DROPDOWN_LINKS: Array<dropdownLinksType> = [
   {
     id: 1,
     label: 'Status',
-    link: 'https://my.realdevsquad.com',
+    link: 'https://www.realdevsquad.com/status',
   },
   {
     id: 2,
     label: 'Profile',
-    link: 'https://my.realdevsquad.com/profile',
+    link: 'https://www.realdevsquad.com/profile',
   },
   {
     id: 3,
     label: 'Tasks',
-    link: 'https://my.realdevsquad.com/tasks',
+    link: 'https://status.realdevsquad.com/tasks',
   },
   {
     id: 4,
     label: 'Identity',
-    link: 'https://my.realdevsquad.com/identity',
+    link: 'https://www.realdevsquad.com/identity',
   },
   {
     id: 5,
