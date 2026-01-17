@@ -9,8 +9,7 @@ import Image from 'next/image';
 import { useGetIsSuperUser } from '../../utils/customHooks';
 import { LINKS } from '@/src/constants/AppConstants';
 
-
-const URL =LINKS.STATUS_BASE_URL
+const URL = LINKS.STATUS_BASE_URL;
 interface TaskDetails {
   title: string;
   state: string;
@@ -29,7 +28,6 @@ type ContributionAccordionItemProps = Readonly<{
   isTitle: boolean;
   openTaskStatusUpdateModal: (taskId: string, isTaskNoteworthy: string) => void;
 }>;
-
 
 export default function ContributionAccordianItem({
   task,
@@ -60,26 +58,25 @@ export default function ContributionAccordianItem({
       onMouseLeave={hideSetting}
       pb={4}
       className={styles.memberContribution_wrapper}
-      data-testId="contributionContainer"
+      data-testid="contributionContainer"
     >
-
-        {task.id ? (
-          <Link
-            href={`${URL}${task.id}`}
-            isExternal
-            className={styles.memberContribution_taskHeading}
-          >
-            {taskTitle}
-          </Link>
-        ) : (
-          <Link
-            href={`${task.url}`}
-            isExternal
-            className={styles.memberContribution_taskHeading}
-          >
-            {taskTitle}
-          </Link>
-        )}
+      {task.id ? (
+        <Link
+          href={`${URL}${task.id}`}
+          isExternal
+          className={styles.memberContribution_taskHeading}
+        >
+          {taskTitle}
+        </Link>
+      ) : (
+        <Link
+          href={`${task.url}`}
+          isExternal
+          className={styles.memberContribution_taskHeading}
+        >
+          {taskTitle}
+        </Link>
+      )}
       <Text mt={'0.4rem'} mb={'0.2rem'} color={'#636363'}>
         {purpose}
       </Text>
@@ -105,7 +102,7 @@ export default function ContributionAccordianItem({
           right="-10px"
           background="none"
           _hover={{ bg: 'none' }}
-          data-testId="settingButton"
+          data-testid="settingButton"
         >
           <Image src="/icons/setting.svg" alt="" width={15} height={15} />
         </Button>

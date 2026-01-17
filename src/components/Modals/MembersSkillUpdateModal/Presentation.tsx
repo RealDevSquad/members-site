@@ -55,12 +55,12 @@ export default function MembersSkillUpdateModalPresentation({
             name={firstName}
             src={picture}
           />
-          <p data-testId="username" className={styles.memberProfile_name}>
+          <p data-testid="username" className={styles.memberProfile_name}>
             {`${firstName} ${lastName?.charAt(0)}.`}
           </p>
         </ModalHeader>
         <ModalCloseButton
-          data-testId="close btn main"
+          data-testid="close btn main"
           className={styles.memberModal_headerCloseButton}
         />
         <ModalBody className={styles.memberModal_body}>

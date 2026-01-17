@@ -66,20 +66,6 @@ export const serverApi = createApi({
       },
       providesTags: ['AllUsers'],
     }),
-    // Mutations
-    // TODO add types for mutations
-    updateMemberRole: builder.mutation({
-      query: ({ username }) => ({
-        url: `/members/moveToMembers/${username}`,
-        method: 'PATCH',
-      }),
-    }),
-    archiveMember: builder.mutation({
-      query: ({ username }) => ({
-        url: `/members/archiveMembers/${username}`,
-        method: 'PATCH',
-      }),
-    }),
     updateUserRole: builder.mutation({
       query: ({ userId, body }) => ({
         url: `/users/${userId}/temporary/data`,
@@ -102,13 +88,11 @@ export const serverApi = createApi({
 });
 
 export const {
-  useArchiveMemberMutation,
   useGetContributionsQuery,
   useGetAllUsersQuery,
   useGetUserActiveTaskQuery,
   useGetUserQuery,
   useGetSelfDetailsQuery,
-  useUpdateMemberRoleMutation,
   useUpdateTaskStatusMutation,
   useUpdateUserRoleMutation,
   useGetAllMembersQuery,
